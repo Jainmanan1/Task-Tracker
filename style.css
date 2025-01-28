@@ -1,0 +1,281 @@
+body {
+    background-color: #48A30012;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    flex-direction: column;
+}
+
+main {
+    padding: 0px 16px 32px;
+
+    box-sizing: border-box;
+}
+
+
+
+
+.heading {
+    text-align: center;
+    font-family: 'Poppins';
+
+
+
+}
+
+h1 {
+    margin: 15px;
+}
+
+.topic {
+    color: rgb(8, 156, 8);
+}
+
+
+.topic1 {
+    color: rgb(83, 61, 61);
+}
+
+.subHeading {
+
+
+    margin: 0 auto;
+    padding: 10px;
+    font-family: 'Poppins', sans-serif;
+    text-align: left;
+    font-size: 18px;
+    border-radius: 15px;
+    background-color: #FBFBFB;
+    max-width: 660px;
+    margin-inline: auto;
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.1);
+}
+
+
+.container {
+    width: 100%;
+    text-align: center;
+    /* margin-top: 20px; */
+}
+
+.p1 {
+    font-size: 9px;
+    opacity: 0.5;
+
+
+}
+
+
+
+.p2 {
+    font-size: 9px;
+    color: #FF5151;
+    margin-block: 20px;
+    ;
+}
+.removeP2{
+    visibility: hidden;
+}
+.containerHead {
+    position: relative;
+    display: inline-block;
+
+}
+
+.sun {
+    vertical-align: middle;
+    margin-left: 80px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 30px;
+    animation: mymove 5s linear infinite;
+}
+
+@keyframes mymove {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+
+}
+
+
+.sunFace {
+    margin-left: 80px;
+
+    position: absolute;
+    top: 7.9%;
+    left: .7%;
+    width: 14px;
+    height: 10px;
+    padding: 8px;
+    pointer-events: none;
+
+
+}
+
+
+
+.bar {
+    height: 30px;
+    /* padding: 10px; */
+    border-radius: 15px;
+    background-color: #48A30012;
+
+    
+}
+
+.insideProgressBar {
+    
+    font-weight: 500;
+    font-family: 'Poppins';
+    font-size: 10px;
+    border-radius: 15px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  overflow: hidden;
+    margin-block: 20px;
+  
+
+}
+.bar span{
+    padding-left: 20px;
+    color:#48A30012 ;
+    visibility: hidden;
+    
+}
+
+
+.taskBar {
+
+    border-radius: 15px;
+    height: 82px;
+    border: 1px solid #0000001A;
+    display: flex;
+    align-items: center;
+    padding: 0 22px;
+    margin-bottom: 42px;
+
+}
+
+.checkButton {
+    border: 1px solid #61481C;
+    border-radius: 50%;
+    height: 24px;
+    width: 24px;
+    flex-shrink: 0;
+    cursor: pointer;
+    outline: none;
+    box-sizing: border-box;
+    font-size: 0;
+    padding: 0;
+
+
+}
+
+.checkButton1 {
+
+    box-sizing: border-box;
+    background: url('tick.svg') no-repeat top left;
+    background-size: 100% auto;
+    color: white;
+}
+
+
+
+.task1 {
+
+    font-size: 16px;
+    font-family: inherit;
+    padding-left: 22px;
+    text-align: left;
+    border: none;
+    color: black;
+    background-color: #FBFBFB;
+    flex-grow: 1;
+    align-self: stretch;
+    cursor: pointer;
+
+}
+
+.task1::placeholder {
+    color: #D9D9D9;
+}
+
+.task1:focus {
+    outline: none;
+}
+
+.taskBar.complete .task1 {
+    text-decoration-line: line-through;
+    color: #48A300;
+}
+
+
+
+.quote {
+    text-align: center;
+    font-weight: 500;
+    font-size: 16px;
+    font-family: 'poppins';
+    margin-bottom: 28px;
+}
+
+.madeWith {
+    font-family: 'Poppins';
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 15px;
+    text-align: center;
+    color: #858585;
+
+}
+
+
+@media screen and (min-width:769px) {
+    .heading {
+        font-size: 26px;
+    }
+}
+
+
+@media screen and (max-width: 768px) {
+    main {
+        padding: 0px 12px;
+    }
+
+    .container {
+        margin-top: 20px;
+    }
+
+    .topic,
+    .topic1 {
+        font-size: 24px;
+    }
+
+    .subHeading {
+        padding: 8px;
+    }
+
+    .taskBar {
+        height: 64px;
+        margin-bottom: 24px;
+    }
+
+    .checkButton {
+        height: 20px;
+        width: 20px;
+    }
+
+    .bar {
+        height: 24px;
+    }
+
+}
