@@ -9,6 +9,8 @@
                        'Just a step away, keep going!',
         'Whoa! You just completed all the goals, time for chill :D']
 
+   
+
     const allObject= JSON.parse(localStorage.getItem('allGoals')) || {};
 
     const completedGoalsCount = Object.values(allObject).filter((goal) => goal.completed).length;
@@ -28,11 +30,14 @@
     });
 
 
+ 
+
     const updateProgressBar = () => {
         const progressPercentage = (completedTasks / checkBoxes1.length) * 100;
         progressBar.style.width = `${progressPercentage}%`;
         progressBar.style.background = progressPercentage > 0 ? '#48A300' : '';
     };
+
 
     checkBoxes1.forEach((checkBox) => {
         checkBox.addEventListener('click', () => {
@@ -116,6 +121,9 @@
         });
     });
 })();
+
+
+
 
 
 
