@@ -183,7 +183,7 @@ h1 {
 .checkButton1 {
 
     box-sizing: border-box;
-    background: url('./pictures/tick.svg') no-repeat top left;
+    background: url('tick.svg') no-repeat top left;
     background-size: 100% auto;
     color: white;
 }
