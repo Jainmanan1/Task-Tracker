@@ -22,7 +22,6 @@
         input.addEventListener('input', updateGoalsMessage);
     });
 
- 
 
     const updateProgressBar = () => {
         const progressPercentage = (completedTasks / checkBoxes1.length) * 100;
@@ -63,23 +62,29 @@
     });
 
     content.forEach((input) => {
-        input.value=allObject[input.id].name;
-
+       
+        if (!allObject[input.id]) {
+            allObject[input.id] = { name: "", completed: false };
+        }
+    
+       
+        input.value = allObject[input.id].name;
+    
         const checkBox = input.parentElement.querySelector('.checkButton');
         if (allObject[input.id].completed) {
             checkBox.classList.add('checkButton1');
-            input.parentElement.classList.add('complete'); 
+            input.parentElement.classList.add('complete');
         }
         
         input.addEventListener('input', (e) => {
-            allObject[input.id]={
-                name:input.value,
-                completed:false,
-            }
-            localStorage.setItem('allGoals',JSON.stringify(allObject));
+            allObject[input.id] = {
+                name: input.value,
+                completed: false,
+            };
+            localStorage.setItem('allGoals', JSON.stringify(allObject));
         });
     });
-
+    
     
     
 
