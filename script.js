@@ -4,16 +4,32 @@
     const goals = document.querySelectorAll('.p2');
     const progressBar = document.querySelector('.insideProgressBar');
     let completedTasks = 0;
+   
 
     const allObject= JSON.parse(localStorage.getItem('allGoals')) || {};
-  
+
+   const updateGoalsMessage = () =>{
+        const allFilled = Array.from(content).every(input => input.value.trim().length > 0);
+        goals.forEach(goal => goal.style.visibility = allFilled ? 'hidden' : 'visible');
+        localStorage.setItem('goalsMessageHidden' , allFilled);
+   };
+ window.addEventListener('load',()=>{
+    const isHidden= localStorage.getItem('goalsMessageHidden')==='true';
+   goals.forEach(goal => goal.style.visibility = isHidden ? 'hidden' : 'visible');
+    });
+
+    content.forEach((input) => {
+        input.addEventListener('input', updateGoalsMessage);
+    });
+
+ 
+
     const updateProgressBar = () => {
         const progressPercentage = (completedTasks / checkBoxes1.length) * 100;
         progressBar.style.width = `${progressPercentage}%`;
         progressBar.style.background = progressPercentage > 0 ? '#48A300' : '';
     };
 
-    
     checkBoxes1.forEach((checkBox) => {
         checkBox.addEventListener('click', () => {
             const taskBar = checkBox.closest('.taskBar');
@@ -63,6 +79,8 @@
             localStorage.setItem('allGoals',JSON.stringify(allObject));
         });
     });
+
+    
     
 
     
@@ -88,3 +106,6 @@
         });
     });
 })();
+
+
+
