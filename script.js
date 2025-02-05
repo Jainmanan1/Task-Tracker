@@ -4,16 +4,36 @@
     const goals = document.querySelectorAll('.p2');
     const progressBar = document.querySelector('.insideProgressBar');
     let completedTasks = 0;
+   const allQuotes =['Raise the bar by completing your goals!',
+                       'Well begun is half done!',
+                       'Just a step away, keep going!',
+        'Whoa! You just completed all the goals, time for chill :D']
 
     const allObject= JSON.parse(localStorage.getItem('allGoals')) || {};
-  
+
+    const completedGoalsCount = Object.values(allObject).filter((goal) => goal.completed).length;
+
+   const updateGoalsMessage = () =>{
+        const allFilled = Array.from(content).every(input => input.value.trim().length > 0);
+        goals.forEach(goal => goal.style.visibility = allFilled ? 'hidden' : 'visible');
+        localStorage.setItem('goalsMessageHidden' , allFilled);
+   };
+ window.addEventListener('load',()=>{
+    const isHidden= localStorage.getItem('goalsMessageHidden')==='true';
+   goals.forEach(goal => goal.style.visibility = isHidden ? 'hidden' : 'visible');
+    });
+
+    content.forEach((input) => {
+        input.addEventListener('input', updateGoalsMessage);
+    });
+
+
     const updateProgressBar = () => {
         const progressPercentage = (completedTasks / checkBoxes1.length) * 100;
         progressBar.style.width = `${progressPercentage}%`;
         progressBar.style.background = progressPercentage > 0 ? '#48A300' : '';
     };
 
-    
     checkBoxes1.forEach((checkBox) => {
         checkBox.addEventListener('click', () => {
             const taskBar = checkBox.closest('.taskBar');
@@ -47,22 +67,30 @@
     });
 
     content.forEach((input) => {
-        input.value=allObject[input.id].name;
-
+       
+        if (!allObject[input.id]) {
+            allObject[input.id] = { name: "", completed: false };
+        }
+    
+       
+        input.value = allObject[input.id].name;
+    
         const checkBox = input.parentElement.querySelector('.checkButton');
         if (allObject[input.id].completed) {
             checkBox.classList.add('checkButton1');
-            input.parentElement.classList.add('complete'); 
+            input.parentElement.classList.add('complete');
         }
         
         input.addEventListener('input', (e) => {
-            allObject[input.id]={
-                name:input.value,
-                completed:false,
-            }
-            localStorage.setItem('allGoals',JSON.stringify(allObject));
+            allObject[input.id] = {
+                name: input.value,
+                completed: false,
+            };
+            localStorage.setItem('allGoals', JSON.stringify(allObject));
         });
     });
+    
+    
     
 
     
@@ -88,3 +116,6 @@
         });
     });
 })();
+
+
+
