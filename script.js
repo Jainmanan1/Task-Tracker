@@ -1,37 +1,51 @@
-let completedGoalsCount;
 (() => {
     const checkBoxes1 = document.querySelectorAll('.checkButton');
     const content = document.querySelectorAll('.task1');
-    const progressLabel = document.querySelector('.p1')
+    const progressLabel = document.querySelector('.p1');
     const goals = document.querySelectorAll('.p2');
     const progressBar = document.querySelector('.insideProgressBar');
     let completedTasks = 0;
 
-    const allQuotes =['Raise the bar by completing your goals!',
+    const allQuotes = [
+        'Raise the bar by completing your goals!',
         'Well begun is half done!',
         'Just a step away, keep going!',
-'Whoa! You just completed all the goals, time for chill :D']
+        'Whoa! You just completed all the goals, time for chill :D'
+    ];
 
-    const allObject= JSON.parse(localStorage.getItem('allGoals')) || {};
-
-    completedGoalsCount = Object.values(allObject).filter((goal) => goal.completed).length;
+    let allObject = JSON.parse(localStorage.getItem('allGoals')) || {};
+    let completedGoalsCount = Object.values(allObject).filter(goal => goal.completed).length;
     
-       progressLabel.innerHTML=allQuotes[completedGoalsCount]
+    progressLabel.innerHTML = allQuotes[Math.min(completedGoalsCount, allQuotes.length - 1)];
 
-   const updateGoalsMessage = () =>{
+    const updateGoalsMessage = () => {
         const allFilled = Array.from(content).every(input => input.value.trim().length > 0);
         goals.forEach(goal => goal.style.visibility = allFilled ? 'hidden' : 'visible');
-        localStorage.setItem('goalsMessageHidden' , allFilled);
-   };
- window.addEventListener('load',()=>{
-    const isHidden= localStorage.getItem('goalsMessageHidden')==='true';
-   goals.forEach(goal => goal.style.visibility = isHidden ? 'hidden' : 'visible');
-    });
+        localStorage.setItem('goalsMessageHidden', allFilled);
+    };
 
-    content.forEach((input) => {
-        input.addEventListener('input', updateGoalsMessage);
-    });
+    window.addEventListener('load', () => {
+        const isHidden = localStorage.getItem('goalsMessageHidden') === 'true';
+        goals.forEach(goal => goal.style.visibility = isHidden ? 'hidden' : 'visible');
 
+        allObject = JSON.parse(localStorage.getItem('allGoals')) || {};
+        
+        completedTasks = Object.values(allObject).filter(goal => goal.completed).length;
+        completedGoalsCount = completedTasks; 
+        progressLabel.innerHTML = allQuotes[Math.min(completedGoalsCount, allQuotes.length - 1)];
+
+        document.querySelectorAll('.task1').forEach((input) => {
+            const checkBox = input.parentElement.querySelector('.checkButton');
+            const taskBar = input.closest('.taskBar');
+
+            if (allObject[input.id] && allObject[input.id].completed) {
+                checkBox.classList.add('checkButton1');
+                taskBar.classList.add('complete');
+            }
+        });
+
+        updateProgressBar();
+    });
 
     const updateProgressBar = () => {
         const progressPercentage = (completedTasks / checkBoxes1.length) * 100;
@@ -43,89 +57,72 @@ let completedGoalsCount;
         checkBox.addEventListener('click', () => {
             const taskBar = checkBox.closest('.taskBar');
             const taskInput = taskBar.querySelector('.task1');
-            const inputId= checkBox.nextElementSibling.id;
-            allObject[inputId].completed= !allObject[inputId].completed;
-            localStorage.setItem('allGoals',JSON.stringify(allObject));
-            
-            if (taskInput.value.trim().length > 0) {
-                
-                checkBox.classList.toggle('checkButton1');
-                taskBar.classList.toggle('complete');
+            const inputId = checkBox.nextElementSibling.id;
 
-                
-                if (checkBox.classList.contains('checkButton1')) {
-                    completedGoalsCount++
-                    progressLabel.innerHTML=allQuotes[completedGoalsCount]
-                    completedTasks++;
-                } else {
-                    completedGoalsCount--
-                    progressLabel.innerHTML=allQuotes[completedGoalsCount]
-                    completedTasks--;
-                    
-                }
-            } else {
-                
-                checkBox.classList.remove('checkButton1');
-                taskBar.classList.remove('complete');
-                
+            if (!allObject[inputId]) {
+                allObject[inputId] = { name: taskInput.value, completed: false };
             }
 
            
+            if (taskInput.value.trim().length === 0) return;
+
+            allObject[inputId].completed = !allObject[inputId].completed;
+            localStorage.setItem('allGoals', JSON.stringify(allObject));
+
+            checkBox.classList.toggle('checkButton1');
+            taskBar.classList.toggle('complete');
+
+            if (checkBox.classList.contains('checkButton1')) {
+                completedGoalsCount++;
+                completedTasks++;
+            } else {
+                completedGoalsCount--;
+                completedTasks--;
+            }
+
+            progressLabel.innerHTML = allQuotes[Math.min(completedGoalsCount, allQuotes.length - 1)];
             updateProgressBar();
-
-
         });
     });
 
     content.forEach((input) => {
-       
         if (!allObject[input.id]) {
             allObject[input.id] = { name: "", completed: false };
         }
-    
-       
+
         input.value = allObject[input.id].name;
-    
+
         const checkBox = input.parentElement.querySelector('.checkButton');
+        const taskBar = input.closest('.taskBar');
         if (allObject[input.id].completed) {
             checkBox.classList.add('checkButton1');
-            input.parentElement.classList.add('complete');
+            taskBar.classList.add('complete');
         }
-        
+
         input.addEventListener('input', (e) => {
-            allObject[input.id] = {
-                name: input.value,
-                completed: false,
-            };
+            allObject[input.id].name = input.value;
             localStorage.setItem('allGoals', JSON.stringify(allObject));
         });
     });
-    
-    
-    
 
-    
     content.forEach((input) => {
         input.addEventListener('input', () => {
             const taskBar = input.closest('.taskBar');
             const checkBox = taskBar.querySelector('.checkButton');
-
-            if (input.value.trim().length === 0) {
-                
-                if (checkBox.classList.contains('checkButton1')) {
-                    checkBox.classList.remove('checkButton1');
-                    taskBar.classList.remove('complete');
-                    completedTasks--; 
-                }
-            }
+            const inputId = input.id;
 
            
-            const allFilled = Array.from(content).every(input => input.value.trim().length > 0);
-            goals.forEach(goal => goal.style.visibility = allFilled ? 'hidden' : 'visible');
+            if (input.value.trim().length === 0 && allObject[inputId].completed) {
+                checkBox.classList.remove('checkButton1');
+                taskBar.classList.remove('complete');
+                completedTasks--;
+                completedGoalsCount--;
+                allObject[inputId].completed = false;
+                localStorage.setItem('allGoals', JSON.stringify(allObject));
+            }
 
+            progressLabel.innerHTML = allQuotes[Math.min(completedGoalsCount, allQuotes.length - 1)];
             updateProgressBar();
         });
     });
 })();
-
-
