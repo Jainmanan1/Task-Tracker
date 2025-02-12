@@ -18,7 +18,7 @@ stage('Build') {
 
 steps {
 
-sh 'echo "Building the project..."" // Replace with your actual build command (e.g., mvn clean install, npm run build)
+sh 'echo "Building the project...""
 
 }
 
@@ -28,6 +28,6 @@ stage('Test') {
 
 steps {
 
-sh 'echo "Testing the project..."" // Replace with your actual test command (e.g., npm test, mvn test)
+sh 'echo "Testing the project..."" 
 
 }
