@@ -10,14 +10,14 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'echo "Building the project..."'
+                bat 'echo Building the project...'
             }
         }
 
         stage('Test') {
             steps {
-                sh 'echo "Testing the project..."'
+                bat 'echo Testing the project...'
             }
         }
-    }  // Missing closing brace added here
-}  // Missing closing brace added here
+    }
+}
