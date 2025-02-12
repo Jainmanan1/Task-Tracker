@@ -18,7 +18,8 @@ stage('Build') {
 
 steps {
 
-sh 'echo "Building the project...""
+sh '
+  echo "Building the project..."'
 
 }
 
